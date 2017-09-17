@@ -5,7 +5,7 @@ diff -Naur provisioningserver/drivers/power/registry.py provisioningserver-wol/d
  from provisioningserver.drivers.power.virsh import VirshPowerDriver
  from provisioningserver.drivers.power.vmware import VMwarePowerDriver
  from provisioningserver.drivers.power.wedge import WedgePowerDriver
-+from provisioningserver.drivers.power.wakeonlan import WakeOnLANPowerDriver
++from provisioningserver.drivers.power.etherwake import WakeOnLANPowerDriver
  from provisioningserver.utils.registry import Registry
  
  
@@ -17,9 +17,9 @@ diff -Naur provisioningserver/drivers/power/registry.py provisioningserver-wol/d
  ]
  for driver in power_drivers:
      PowerDriverRegistry.register_item(driver.name, driver)
-diff -Naur provisioningserver/drivers/power/wakeonlan.py provisioningserver-wol/drivers/power/wakeonlan.py
---- provisioningserver/drivers/power/wakeonlan.py	1970-01-01 08:00:00.000000000 +0800
-+++ provisioningserver-wol/drivers/power/wakeonlan.py	2017-06-10 19:43:48.837631026 +0800
+diff -Naur provisioningserver/drivers/power/etherwake.py provisioningserver-wol/drivers/power/etherwake.py
+--- provisioningserver/drivers/power/etherwake.py	1970-01-01 08:00:00.000000000 +0800
++++ provisioningserver-wol/drivers/power/etherwake.py	2017-06-10 19:43:48.837631026 +0800
 @@ -0,0 +1,67 @@
 +# Copyright 2016 Canonical Ltd.  This software is licensed under the
 +# GNU Affero General Public License version 3 (see the file LICENSE).
@@ -40,13 +40,13 @@ diff -Naur provisioningserver/drivers/power/wakeonlan.py provisioningserver-wol/
 +import subprocess
 +
 +
-+maaslog = get_maas_logger("drivers.power.wakeonlan")
++maaslog = get_maas_logger("drivers.power.etherwake")
 +
-+REQUIRED_PACKAGES = [["wakeonlan", "wakeonlan"]]
++REQUIRED_PACKAGES = [["etherwake", "etherwake"]]
 +
 +class WakeOnLANPowerDriver(PowerDriver):
 +
-+    name = 'wakeonlan'
++    name = 'etherwake'
 +    description = "Wake on LAN Power Driver"
 +    settings = [
 +        make_setting_field('power_mac', "MAC address", required=True),
@@ -75,7 +75,7 @@ diff -Naur provisioningserver/drivers/power/wakeonlan.py provisioningserver-wol/
 +
 +    def power_on(self, system_id, context):
 +        """Power on machine using wake on lan."""
-+        subprocess.call(["wakeonlan", context.get("power_mac")])
++        subprocess.call(["etherwake", context.get("power_mac")])
 +
 +
 +    def power_off(self, system_id, context):
