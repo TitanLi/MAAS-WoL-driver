@@ -19,7 +19,7 @@ import subprocess
 
 maaslog = get_maas_logger("drivers.power.etherwake")
 
-REQUIRED_PACKAGES = [["etherwake", "wakeonlan"]]
+REQUIRED_PACKAGES = [["etherwake"]]
 
 class WakeOnLANPowerDriver(PowerDriver):
 
